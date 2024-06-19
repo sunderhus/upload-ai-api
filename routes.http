@@ -1,0 +1,55 @@
+# @name list-prompts
+GET http://localhost:3333/prompts HTTP/1.1
+
+###
+
+# @name get-prompts
+GET http://localhost:3333/prompts HTTP/1.1
+
+###
+
+# @name create-prompts-template
+POST http://localhost:3333/prompts HTTP/1.1
+Content-Type: application/json
+
+{
+  "template":"Gere um resumo sucinto de transcrição do vídeo informado a seguir e otimize esse mesmo texto para um post na plataform do Youtube: '''{transcription}'''",
+  "title":"Youtube template"
+}
+
+
+###
+
+# @name upload-video
+POST http://localhost:3333/video HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+###
+# @name create-transcription
+POST http://localhost:3333/video/3a58c1ff-169d-4917-9da2-3597dad198f6/transcription 
+Content-Type: application/json
+
+{
+  "prompt":"react framework"
+}
+
+
+###
+# @name ai-generate-completion-by-template
+
+POST  http://localhost:3333/ai/completion
+Content-Type: application/json
+
+{
+  "videoId":"3a58c1ff-169d-4917-9da2-3597dad198f6",
+  "template":"Gere um resumo sucinto de transcrição do vídeo informado a seguir e otimize esse mesmo texto para um post na plataform do Youtube: '''{transcription}'''",
+  "temperature":0.8
+}
